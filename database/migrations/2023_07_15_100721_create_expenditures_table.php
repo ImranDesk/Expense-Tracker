@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Item;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('expenditures', function (Blueprint $table) {
             $table->id();
-            $table->string('item_name');
-            $table->string('group_name');
-            $table->string('expense');
+            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(Item::class);
+            $table->double('amount', 8, 2);
             $table->timestamps();
         });
     }

@@ -15,7 +15,7 @@
 
                     {{-- .................... --}}
 
-                    
+
                     <div class="w-full overflow-hidden rounded-lg shadow-xs">
                         <div class="w-full overflow-x-auto">
                             <table class="w-full whitespace-no-wrap">
@@ -23,27 +23,37 @@
                                     <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
 
                                         <th class="px-4 py-3">Item</th>
-                                        <th class="px-4 py-3">Group</th>
+                                        <th class="px-4 py-3">Amount</th>
+                                        <th class="px-4 py-3">Cost</th>
                                         <th class="px-4 py-3">Date</th>
-                                        <th class="px-4 py-3">Expense</th>
+                                      
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                                    @foreach($items as $fi)
+                                    @foreach($expenditures as $fi)
+                                    @php
+                                    $item = DB::table('items')->where('id', $fi->item_id)->value('name');
+
+                                    $price = DB::table('items')->where('id', $fi->item_id)->value('price');
+                                    @endphp
+
                                     <tr class="text-gray-700 dark:text-gray-400">
 
                                         <td class="px-4 py-3 text-sm">
-                                            {{$fi->item_name}}
+                                            {{$item}}
                                         </td>
                                         <td class="px-4 py-3 text-sm">
-                                            {{$fi->group_name}}
+                                            {{$fi->amount}}
                                         </td>
+                                        <td class="px-4 py-3 text-sm">
+                                            {{$price * $fi->amount }}
+                                         </td>
                                         <td class="px-4 py-3 text-sm">
                                             {{$fi->updated_at}}
                                         </td>
-                                        <td class="px-4 py-3">
-                                            {{$fi->expense}}
-                                        </td>
+
+                                        
+                                        
                                     </tr>
                                     @endforeach
 

@@ -29,13 +29,13 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        $url = '';
-        if($request->user()->is_admin == 1) {
-            $url = 'dashboard';
-        }
-        elseif($request->user()->is_admin == 0) {
-            $url = 'user/dashboard';
-        }
+        $url = 'dashboard';
+        // if($request->user()->is_admin == 1) {
+        //     $url = 'dashboard';
+        // }
+        // elseif($request->user()->is_admin == 0) {
+        //     $url = 'user/dashboard';
+        // }
 
         return redirect()->intended($url);
     }

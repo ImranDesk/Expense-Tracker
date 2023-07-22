@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\ItemGroup;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,8 +14,9 @@ return new class extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->id();
-            $table->string('item_name');
-            $table->string('group_name');
+            $table->string('name');
+            $table->foreignIdFor(ItemGroup::class);
+            $table->double('price', 8, 2);
             $table->timestamps();
         });
     }

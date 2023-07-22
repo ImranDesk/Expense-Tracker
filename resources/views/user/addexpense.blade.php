@@ -17,16 +17,7 @@
                     <form method="POST" action="add-expense">
                         @csrf
 
-                        <label class="block mt-4 text-sm">
-                            <span class="text-gray-700 dark:text-gray-400">
-                                Select Group
-                            </span>
-                            <select name="group" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
-                                @foreach($fetch_groups as $fg)
-                                <option value="{{$fg->group_name}}">{{$fg->group_name}}</option>
-                                @endforeach
-                            </select>
-                        </label>
+                       
 
                         <label class="block mt-4 text-sm">
                             <span class="text-gray-700 dark:text-gray-400">
@@ -34,15 +25,15 @@
                             </span>
                             <select name="item_name" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
                                 @foreach($fetch_items as $fi)
-                                <option value="{{$fi->item_name}}">{{$fi->item_name}}</option>
+                                <option value="{{$fi->name}}">{{$fi->name}}</option>
                                 @endforeach
                             </select>
                         </label>
 
 
                         <label class="block text-sm">
-                            <span class="text-gray-700 dark:text-gray-400">Expense</span>
-                            <input name="expense" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Enter Expense" />
+                            <span class="text-gray-700 dark:text-gray-400">Amount</span>
+                            <input name="amount" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="Enter Amount" />
                         </label>
 
                         <div class="mt-4 text-sm">

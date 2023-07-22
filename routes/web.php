@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ExpenseController;
-
+use App\Models\Expenditure;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,10 +36,6 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__ . '/auth.php';
-
-
-// Logout 
-Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
 
 // create groups
@@ -69,9 +65,10 @@ Route::middleware(['auth', 'role:1'])->group(function () {
 });
 
 Route::middleware(['auth', 'role:1'])->group(function () {
-    Route::post('add-item', [ItemController::class, 'addItem']);
+    Route::middleware(['auth', 'role:1'])->group(function () {
+        Route::post('add-item', [ItemController::class, 'addItem']);
+    });
 });
-
 Route::middleware(['auth', 'role:1'])->group(function () {
     Route::any('All-Items', function (Request $req) {
 
@@ -82,15 +79,15 @@ Route::middleware(['auth', 'role:1'])->group(function () {
 });
 
 // ......... 
-Route::middleware(['auth', 'role:1'])->group(function () {
+// Route::middleware(['auth', 'role:1'])->group(function () {
 
-    Route::get('dashboard', [AdminController::class, 'AdminDashboard'])->name('dashboard');
-});
+Route::get('dashboard', [AdminController::class, 'AdminDashboard'])->name('dashboard');
+// });
 
-Route::middleware(['auth', 'role:0'])->group(function () {
+// Route::middleware(['auth', 'role:0'])->group(function () {
 
-    Route::get('user/dashboard', [UserController::class, 'UserDashboard'])->name('user.dashboard');
-});
+//     Route::get('user/dashboard', [UserController::class, 'UserDashboard'])->name('user.dashboard');
+// });
 
 
 
@@ -104,23 +101,23 @@ Route::middleware(['auth', 'role:0'])->group(function () {
         Request $req
     ) {
 
-        $fetch_groups = ItemGroup::select('item_groups.*')->get();
+        $expenditures = Expenditure::select('expenditures.*')->where('user_id', auth()->id())->get();
 
-        return View('user/user_groups', compact('fetch_groups'));
+        return View('user/items', compact('expenditures'));
     });
 });
 
-Route::middleware(['auth', 'role:0'])->group(function () {
-    Route::get('View-Expenditures/{group_name}', [ExpenseController::class, 'getItemsByGroupName'])->name('View-Expenditures');
-});
+// Route::middleware(['auth', 'role:0'])->group(function () {
+//     Route::get('View-Expenditures', [ExpenseController::class, 'getItems'])->name('View-Expenditures');
+// });
 
 Route::middleware(['auth', 'role:0'])->group(function () {
     Route::any('Add-Expense', function (Request $req) {
 
-        $fetch_groups = ItemGroup::select('item_groups.*')->get();
+        // $fetch_items = ItemGroup::select('item_groups.*')->get();
         $fetch_items = Item::select('items.*')->get();
 
-        return View('user/addexpense', compact('fetch_groups', 'fetch_items'));
+        return View('user/addexpense', compact('fetch_items'));
     });
 });
 

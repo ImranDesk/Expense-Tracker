@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\ItemGroup;
 use App\Models\Item;
+use App\Models\ItemGroup;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ItemController extends Controller
 {
@@ -12,7 +13,7 @@ class ItemController extends Controller
     {
         $obj = new ItemGroup;
 
-        $obj->group_name = $req->get('groupname');
+        $obj->name = $req->get('groupname');
         $res = $obj->save();
 
         return redirect('/All-Groups');
@@ -21,10 +22,18 @@ class ItemController extends Controller
 
     public function addItem(Request $req)
     {
-        $obj = new Item  ;
+        $obj = new Item;
 
-        $obj->group_name = $req->get('group');
-        $obj->item_name = $req->get('item_name');
+        $obj->name = $req->get('name');
+
+        $group = $req->get('group');
+
+        $obj->item_group_id = DB::table('item_groups')
+            ->where('name', $group)
+            ->value('id');
+
+        $obj->price = $req->get('price');
+
         $res = $obj->save();
 
         return redirect('/All-Items');
